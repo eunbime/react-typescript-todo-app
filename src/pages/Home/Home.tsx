@@ -10,8 +10,8 @@ const Home = () => {
     <Container>
       <AddForm />
       <ListWrapper>
-        <TodoList />
-        <TodoList />
+        <TodoList isSuccess={false} />
+        <TodoList isSuccess={true} />
       </ListWrapper>
       <AddTodoModal />
     </Container>

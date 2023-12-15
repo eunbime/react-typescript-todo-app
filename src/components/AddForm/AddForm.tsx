@@ -1,14 +1,23 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import { Container } from "../../styles/styles";
 import styled from "styled-components";
 import { useAppDispatch } from "../../hooks/redux";
 import { toggleAddTodoModal } from "../../store/modules/modalSlice";
+import { setTodoTitle } from "../../store/modules/todosSlice";
 
 const AddForm = () => {
   const dispatch = useAppDispatch();
 
+  const [text, setText] = useState("");
+
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+  };
+
+  const openModalHandler = () => {
+    dispatch(toggleAddTodoModal(true));
+    dispatch(setTodoTitle(text));
+    setText("");
   };
 
   return (
@@ -18,8 +27,13 @@ const AddForm = () => {
           submitHandler(e);
         }}
       >
-        <input type="text" placeholder="Add todo..." />
-        <button onClick={() => dispatch(toggleAddTodoModal(true))}>+</button>
+        <input
+          type="text"
+          placeholder="Add todo..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+        <button onClick={openModalHandler}>+</button>
       </FormWrapper>
     </Container>
   );

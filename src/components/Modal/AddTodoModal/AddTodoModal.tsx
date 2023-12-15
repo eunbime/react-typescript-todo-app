@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { ModalContainer } from "../Modal.styles";
@@ -7,13 +7,19 @@ import { Todo } from "../../../types/todo";
 import { addTodo } from "../../../store/modules/todosSlice";
 import TextEditor from "../../TextEditor/TextEditor";
 import { toggleAddTodoModal } from "../../../store/modules/modalSlice";
+import { v4 } from "uuid";
 
 const AddTodoModal = () => {
   const dispatch = useAppDispatch();
   const { viewAddTodoModal } = useAppSelector((state) => state.modalSlice);
+  const { editTitle } = useAppSelector((state) => state.todosSlice);
 
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(editTitle || "");
   const [content, setContent] = useState("");
+
+  useEffect(() => {
+    setTitle(editTitle);
+  }, [editTitle]);
 
   const addTodoHandler = () => {
     if (!title) {
@@ -25,6 +31,7 @@ const AddTodoModal = () => {
     const date = dayjs().format("DD/MM/YY h:mm A");
 
     let todo: Partial<Todo> = {
+      id: v4(),
       title,
       date,
       content,
@@ -33,6 +40,9 @@ const AddTodoModal = () => {
     };
 
     dispatch(addTodo(todo));
+    dispatch(toggleAddTodoModal(false));
+    setTitle("");
+    setContent("");
   };
 
   return (

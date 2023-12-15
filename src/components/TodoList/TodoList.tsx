@@ -2,16 +2,24 @@ import React from "react";
 import TodoItem from "./TodoItem/TodoItem";
 import styled from "styled-components";
 import { useAppSelector } from "../../hooks/redux";
+import { useQuery } from "react-query";
+import { getTodos } from "../../api/todos";
+import { Todo } from "../../types/todo";
 
-const TodoList = () => {
+const TodoList = ({ isSuccess }: { isSuccess: boolean }) => {
   const { todos } = useAppSelector((state) => state.todosSlice);
+  // const { isLoading, isError, data: todos } = useQuery(["todos"], getTodos);
+
+  const filteredTodos = todos?.filter(
+    (todo: Todo) => todo.isDone === isSuccess
+  );
 
   return (
     <div>
       <ListSection>
-        <h2>todolist</h2>
+        {isSuccess ? <h2>success</h2> : <h2>todo</h2>}
         <ItemsWrapper>
-          {todos.map((todo) => (
+          {filteredTodos?.map((todo: Todo) => (
             <TodoItem key={todo.id} todo={todo} />
           ))}
         </ItemsWrapper>

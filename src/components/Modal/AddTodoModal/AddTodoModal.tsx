@@ -4,33 +4,44 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { ModalContainer } from "../Modal.styles";
 import dayjs from "dayjs";
 import { Todo } from "../../../types/todo";
-import { addTodo } from "../../../store/modules/todosSlice";
 import TextEditor from "../../TextEditor/TextEditor";
 import { toggleAddTodoModal } from "../../../store/modules/modalSlice";
 import { v4 } from "uuid";
+import { useMutation } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
+import { addTodo } from "../../../api/todos";
 
-const AddTodoModal = () => {
+const AddTodoModal: React.FC = () => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation<Response, unknown, string, void>(addTodo, {
+    onSuccess: (data: Todo[]) => {
+      console.log(data);
+      queryClient.invalidateQueries("todos");
+    },
+    onError: (error: string) => {
+      // mutation 이 에러가 났을 경우 error를 받을 수 있다.
+      console.error(error);
+    },
+  });
+
   const dispatch = useAppDispatch();
   const { viewAddTodoModal } = useAppSelector((state) => state.modalSlice);
   const { editTitle } = useAppSelector((state) => state.todosSlice);
 
-  const [title, setTitle] = useState(editTitle || "");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState<string>(editTitle || "");
+  const [content, setContent] = useState<string>("");
 
   useEffect(() => {
     setTitle(editTitle);
   }, [editTitle]);
 
   const addTodoHandler = () => {
-    if (!title) {
-      return;
-    } else if (!content) {
-      return;
-    }
+    if (!title || !content) return;
 
     const date = dayjs().format("DD/MM/YY h:mm A");
 
-    let todo: Partial<Todo> = {
+    const todo: Todo = {
       id: v4(),
       title,
       date,
@@ -39,6 +50,7 @@ const AddTodoModal = () => {
       createdAt: new Date().getTime(),
     };
 
+    mutation.mutate(todo);
     dispatch(addTodo(todo));
     dispatch(toggleAddTodoModal(false));
     setTitle("");

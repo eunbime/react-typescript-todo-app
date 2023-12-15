@@ -2,17 +2,35 @@ import React from "react";
 import TodoItem from "./TodoItem/TodoItem";
 import styled from "styled-components";
 import { useAppSelector } from "../../hooks/redux";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getTodos } from "../../api/todos";
 import { Todo } from "../../types/todo";
+import { AxiosError } from "axios";
+
+declare module "@tanstack/react-query" {
+  interface Register {
+    defaultError: AxiosError;
+  }
+}
 
 const TodoList = ({ isSuccess }: { isSuccess: boolean }) => {
-  const { todos } = useAppSelector((state) => state.todosSlice);
-  // const { isLoading, isError, data: todos } = useQuery(["todos"], getTodos);
+  // const { todos } = useAppSelector((state) => state.todosSlice);
+  const {
+    isLoading,
+    error,
+    data: todos,
+  } = useQuery({
+    queryKey: ["todos"],
+    queryFn: getTodos,
+  });
 
   const filteredTodos = todos?.filter(
     (todo: Todo) => todo.isDone === isSuccess
   );
+
+  if (isLoading) return "Loading...";
+
+  if (error) return "에러 발생: " + error.message;
 
   return (
     <div>

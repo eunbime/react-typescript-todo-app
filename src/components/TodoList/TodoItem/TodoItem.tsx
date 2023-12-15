@@ -2,14 +2,22 @@ import React from "react";
 import styled from "styled-components";
 import { Todo } from "../../../types/todo";
 import { useAppDispatch } from "../../../hooks/redux";
-import { deleteTodo, toggleIsDone } from "../../../store/modules/todosSlice";
+import { toggleIsDone } from "../../../store/modules/todosSlice";
 import parse from "html-react-parser";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteTodo } from "../../../api/todos";
 
-interface TodoType {
-  todo: Todo;
-}
+const TodoItem = ({ todo }: { todo: Todo }) => {
+  const queryClient = useQueryClient();
 
-const TodoItem = ({ todo }: TodoType) => {
+  // Mutations
+  const mutation = useMutation<void, unknown, string, unknown>(deleteTodo, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
+
   const dispatch = useAppDispatch();
 
   const successHandler = (id: string) => {
@@ -22,7 +30,13 @@ const TodoItem = ({ todo }: TodoType) => {
         <h3>{todo.title}</h3>
         <p>{parse(todo.content)}</p>
         <ButtonSection>
-          <button onClick={() => dispatch(deleteTodo(todo.id))}>삭제</button>
+          <button
+            onClick={() => {
+              mutation.mutate(todo.id);
+            }}
+          >
+            삭제
+          </button>
           <button>수정</button>
           <button onClick={() => successHandler(todo.id)}>
             {todo.isDone ? "취소" : "완료"}

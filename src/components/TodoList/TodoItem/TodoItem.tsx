@@ -2,26 +2,47 @@ import React from "react";
 import styled from "styled-components";
 import { Todo } from "../../../types/todo";
 import { useAppDispatch } from "../../../hooks/redux";
-import { toggleIsDone } from "../../../store/modules/todosSlice";
 import parse from "html-react-parser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteTodo } from "../../../api/todos";
+import { deleteTodo, toggleIsDoneTodo } from "../../../api/todos";
+import { AxiosError } from "axios";
 
 const TodoItem = ({ todo }: { todo: Todo }) => {
   const queryClient = useQueryClient();
 
   // Mutations
-  const mutation = useMutation<void, unknown, string, unknown>(deleteTodo, {
+  const deleteMutation = useMutation<
+    void,
+    AxiosError<unknown, any>,
+    string,
+    unknown
+  >(deleteTodo, {
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
+    onError: (error: string) => {
+      console.error(error);
+    },
   });
 
-  const dispatch = useAppDispatch();
+  const isDoneMutation = useMutation<
+    unknown,
+    AxiosError<unknown, any>,
+    void,
+    unknown
+  >(toggleIsDoneTodo, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+    onError: (error: string) => {
+      console.error(error);
+    },
+  });
 
   const successHandler = (id: string) => {
-    dispatch(toggleIsDone({ id }));
+    isDoneMutation.mutate(id as string);
   };
 
   return (

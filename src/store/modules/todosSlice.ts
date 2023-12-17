@@ -33,30 +33,11 @@ const todosSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    addTodo: (state, { payload }) => {
-      state.todos = [payload, ...state.todos];
-    },
-    deleteTodo: (state, { payload }) => {
-      state.todos = state.todos.filter((todo) => todo.id !== payload);
-    },
-    editTodo: (state, { payload }) => {
-      const { id, content } = payload;
-      state.todos = state.todos.map((todo) =>
-        todo.id === id ? { ...todo, content: content } : todo
-      );
-    },
     setTodoTitle: (state, { payload }) => {
       state.editTitle = payload;
-    },
-    toggleIsDone: (state, { payload }) => {
-      const { id } = payload;
-      state.todos = state.todos.map((todo) =>
-        todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-      );
     },
   },
 });
 
-export const { addTodo, deleteTodo, editTodo, setTodoTitle, toggleIsDone } =
-  todosSlice.actions;
+export const { setTodoTitle } = todosSlice.actions;
 export default todosSlice.reducer;

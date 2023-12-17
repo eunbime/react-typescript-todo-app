@@ -10,17 +10,22 @@ import { v4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { addTodo } from "../../../api/todos";
+import { AxiosError } from "axios";
 
 const AddTodoModal: React.FC = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<Response, unknown, string, void>(addTodo, {
+  const mutation = useMutation<
+    unknown,
+    AxiosError<unknown, any>,
+    void,
+    unknown
+  >(addTodo, {
     onSuccess: (data: Todo[]) => {
       console.log(data);
-      queryClient.invalidateQueries("todos");
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
     onError: (error: string) => {
-      // mutation 이 에러가 났을 경우 error를 받을 수 있다.
       console.error(error);
     },
   });
@@ -41,7 +46,7 @@ const AddTodoModal: React.FC = () => {
 
     const date = dayjs().format("DD/MM/YY h:mm A");
 
-    const todo: Todo = {
+    let todo: Todo = {
       id: v4(),
       title,
       date,
@@ -51,7 +56,7 @@ const AddTodoModal: React.FC = () => {
     };
 
     mutation.mutate(todo);
-    dispatch(addTodo(todo));
+
     dispatch(toggleAddTodoModal(false));
     setTitle("");
     setContent("");

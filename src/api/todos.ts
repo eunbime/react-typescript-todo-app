@@ -8,15 +8,15 @@ const getTodos = async (): Promise<Todo[]> => {
   return data;
 };
 
-const addTodo = async (newTodo: Todo) => {
+const addTodo = async (newTodo: Todo): Promise<void> => {
   await axios.post("http://localhost:4000/todos", newTodo);
 };
 
-const deleteTodo = async (id: string) => {
+const deleteTodo = async (id: string): Promise<void> => {
   await axios.delete(`http://localhost:4000/todos/${id}`);
 };
 
-const toggleIsDoneTodo = async (payload: Todo) => {
+const toggleIsDoneTodo = async (payload: Todo): Promise<void> => {
   await axios.patch(`http://localhost:4000/todos/${payload.id}`, {
     isDone: payload.isDone,
   });

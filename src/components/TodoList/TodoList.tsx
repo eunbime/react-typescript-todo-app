@@ -14,14 +14,14 @@ declare module "@tanstack/react-query" {
 }
 
 const TodoList = ({ isSuccess }: { isSuccess: boolean }) => {
-  // const { todos } = useAppSelector((state) => state.todosSlice);
   const {
     isLoading,
     error,
     data: todos,
-  } = useQuery({
+  } = useQuery<Todo[], AxiosError<unknown, any>, Todo[], string[]>({
     queryKey: ["todos"],
     queryFn: getTodos,
+    retry: 5,
   });
 
   const filteredTodos = todos?.filter(
@@ -35,7 +35,7 @@ const TodoList = ({ isSuccess }: { isSuccess: boolean }) => {
   return (
     <div>
       <ListSection>
-        {isSuccess ? <h2>success</h2> : <h2>todo</h2>}
+        {isSuccess ? <h2>완료</h2> : <h2>할 일</h2>}
         <ItemsWrapper>
           {filteredTodos?.map((todo: Todo) => (
             <TodoItem key={todo.id} todo={todo} />

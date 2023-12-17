@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { ModalContainer } from "../Modal.styles";
 import dayjs from "dayjs";
 import { Todo } from "../../../types/todo";
-import { __addTodos, addTodo } from "../../../store/modules/todosSlice";
+import { __addTodos } from "../../../store/modules/todosSlice";
 import TextEditor from "../../TextEditor/TextEditor";
 import { toggleAddTodoModal } from "../../../store/modules/modalSlice";
 import { v4 } from "uuid";
@@ -22,9 +22,8 @@ const AddTodoModal = () => {
   }, [editTitle]);
 
   const addTodoHandler = () => {
-    if (!title) {
-      return;
-    } else if (!content) {
+    if (!title || !content) {
+      alert("제목 또는 내용을 입력해주세요");
       return;
     }
 
@@ -45,6 +44,16 @@ const AddTodoModal = () => {
     setContent("");
   };
 
+  const cancleHandler = () => {
+    const answer = window.confirm("할일 추가를 취소하시겠습니까?");
+
+    if (!answer) return;
+
+    dispatch(toggleAddTodoModal(false));
+    setTitle("");
+    setContent("");
+  };
+
   return (
     <>
       {viewAddTodoModal && (
@@ -52,7 +61,7 @@ const AddTodoModal = () => {
           <ModalBox>
             <TopWrapper>
               <h1>Add todo</h1>
-              <span onClick={() => dispatch(toggleAddTodoModal(false))}>X</span>
+              <span onClick={cancleHandler}>X</span>
             </TopWrapper>
             <input
               type="text"
@@ -63,7 +72,8 @@ const AddTodoModal = () => {
             <div>
               <TextEditor value={content} setValue={setContent} />
             </div>
-            <button onClick={addTodoHandler}>추가하기</button>
+
+            <AddButton onClick={addTodoHandler}>추가하기</AddButton>
           </ModalBox>
         </ModalContainer>
       )}
@@ -77,6 +87,13 @@ const ModalBox = styled.div`
   padding: 1rem;
   width: clamp(250px, 95%, 750px);
   background-color: #fff;
+
+  input {
+    padding: 0.5rem;
+    font-size: medium;
+    margin-bottom: 1rem;
+    outline: none;
+  }
 `;
 
 const TopWrapper = styled.section`
@@ -85,6 +102,20 @@ const TopWrapper = styled.section`
   font-size: large;
   font-weight: 600;
   margin-bottom: 0.35rem;
+  padding-bottom: 1rem;
+  font-size: x-large;
+  font-weight: 700;
+
+  span {
+    cursor: pointer;
+  }
+`;
+
+const AddButton = styled.button`
+  padding: 0.5rem;
+  background-color: transparent;
+  font-size: medium;
+  font-weight: 700;
 `;
 
 export default AddTodoModal;

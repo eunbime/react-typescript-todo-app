@@ -5,7 +5,6 @@ import { useAppDispatch } from "../../../hooks/redux";
 import {
   __deleteTodos,
   __toggleIsDone,
-  deleteTodo,
 } from "../../../store/modules/todosSlice";
 import parse from "html-react-parser";
 
@@ -22,6 +21,10 @@ const TodoItem = ({ todo }: TodoType) => {
   };
 
   const deleteHandler = (id: string) => {
+    const answer = window.confirm("할일을 삭제하시겠습니까?");
+
+    if (!answer) return;
+
     dispatch(__deleteTodos(id));
   };
 
@@ -49,7 +52,8 @@ const StItem = styled.li`
   font-size: x-large;
   font-weight: 500;
   gap: 0.65rem;
-  border: 1px solid #222;
+  border-radius: 0.5rem;
+  background-color: #ffbe76;
   padding: 1.65rem;
 
   p {
@@ -60,5 +64,12 @@ const StItem = styled.li`
 const ButtonSection = styled.section`
   display: flex;
   gap: 0.5rem;
+
+  button {
+    padding: 0.5rem 1rem;
+    font-size: medium;
+    border-radius: 0.5rem;
+    background-color: #c7ecee;
+  }
 `;
 export default TodoItem;

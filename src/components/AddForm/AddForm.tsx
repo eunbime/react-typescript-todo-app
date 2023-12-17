@@ -52,7 +52,7 @@ const FormWrapper = styled.form`
     width: 90%;
     outline: none;
     border: none;
-    background-color: #eee;
+    background-color: #dff9fb;
   }
 
   button {
@@ -60,6 +60,8 @@ const FormWrapper = styled.form`
     width: 3rem;
     border-radius: 0.35rem;
     margin-left: 1rem;
+    background-color: #dff9fb;
+    color: #888;
   }
 `;
 

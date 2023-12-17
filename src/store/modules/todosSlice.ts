@@ -11,24 +11,7 @@ interface TodosType {
 }
 
 const initialState: TodosType = {
-  todos: [
-    // {
-    //   id: v4(),
-    //   title: "title1",
-    //   content: "content1",
-    //   isDone: false,
-    //   date: "11/22/3",
-    //   createdAt: 123,
-    // },
-    // {
-    //   id: v4(),
-    //   title: "title2",
-    //   content: "content2",
-    //   isDone: true,
-    //   date: "11/22/3",
-    //   createdAt: 123,
-    // },
-  ] as Todo[],
+  todos: [] as Todo[],
   editTitle: "",
   isLoading: true,
   error: null,

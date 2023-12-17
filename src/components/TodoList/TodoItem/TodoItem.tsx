@@ -23,7 +23,6 @@ const TodoItem = ({ todo }: TodoType) => {
         <p>{parse(todo.content)}</p>
         <ButtonSection>
           <button onClick={() => dispatch(deleteTodo(todo.id))}>삭제</button>
-          <button>수정</button>
           <button onClick={() => successHandler(todo.id)}>
             {todo.isDone ? "취소" : "완료"}
           </button>

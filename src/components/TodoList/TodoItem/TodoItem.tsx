@@ -2,7 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { Todo } from "../../../types/todo";
 import { useAppDispatch } from "../../../hooks/redux";
-import { deleteTodo, toggleIsDone } from "../../../store/modules/todosSlice";
+import {
+  __deleteTodos,
+  __toggleIsDone,
+  deleteTodo,
+} from "../../../store/modules/todosSlice";
 import parse from "html-react-parser";
 
 interface TodoType {
@@ -12,8 +16,13 @@ interface TodoType {
 const TodoItem = ({ todo }: TodoType) => {
   const dispatch = useAppDispatch();
 
-  const successHandler = (id: string) => {
-    dispatch(toggleIsDone({ id }));
+  const successHandler = (id: string, isDone: boolean) => {
+    let newIsDone = !isDone;
+    dispatch(__toggleIsDone({ id, newIsDone }));
+  };
+
+  const deleteHandler = (id: string) => {
+    dispatch(__deleteTodos(id));
   };
 
   return (
@@ -22,9 +31,10 @@ const TodoItem = ({ todo }: TodoType) => {
         <h3>{todo.title}</h3>
         <p>{parse(todo.content)}</p>
         <ButtonSection>
-          <button onClick={() => dispatch(deleteTodo(todo.id))}>삭제</button>
-          <button>수정</button>
-          <button onClick={() => successHandler(todo.id)}>
+          <button onClick={() => deleteHandler(todo.id as string)}>삭제</button>
+          <button
+            onClick={() => successHandler(todo.id as string, todo.isDone)}
+          >
             {todo.isDone ? "취소" : "완료"}
           </button>
         </ButtonSection>

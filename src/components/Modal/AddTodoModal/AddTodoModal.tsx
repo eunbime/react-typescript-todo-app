@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { ModalContainer } from "../Modal.styles";
 import dayjs from "dayjs";
 import { Todo } from "../../../types/todo";
-import { addTodo } from "../../../store/modules/todosSlice";
+import { __addTodos, addTodo } from "../../../store/modules/todosSlice";
 import TextEditor from "../../TextEditor/TextEditor";
 import { toggleAddTodoModal } from "../../../store/modules/modalSlice";
 import { v4 } from "uuid";
@@ -30,8 +30,8 @@ const AddTodoModal = () => {
 
     const date = dayjs().format("DD/MM/YY h:mm A");
 
-    let todo: Partial<Todo> = {
-      id: v4(),
+    let todo: Todo = {
+      id: v4() as string,
       title,
       date,
       content,
@@ -39,7 +39,7 @@ const AddTodoModal = () => {
       createdAt: new Date().getTime(),
     };
 
-    dispatch(addTodo(todo));
+    dispatch(__addTodos(todo));
     dispatch(toggleAddTodoModal(false));
     setTitle("");
     setContent("");

@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TodoItem from "./TodoItem/TodoItem";
 import styled from "styled-components";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { useQuery } from "react-query";
 import { getTodos } from "../../api/todos";
 import { Todo } from "../../types/todo";
+import { __getTodos } from "../../store/modules/todosSlice";
 
 const TodoList = ({ isSuccess }: { isSuccess: boolean }) => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(__getTodos());
+  }, [dispatch]);
+
   const { todos } = useAppSelector((state) => state.todosSlice);
-  // const { isLoading, isError, data: todos } = useQuery(["todos"], getTodos);
 
   const filteredTodos = todos?.filter(
     (todo: Todo) => todo.isDone === isSuccess

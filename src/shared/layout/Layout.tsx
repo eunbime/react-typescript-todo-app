@@ -8,7 +8,6 @@ const Layout = () => {
   return (
     <LayoutWrapper>
       <Header />
-      <Navbar />
       <Outlet />
     </LayoutWrapper>
   );

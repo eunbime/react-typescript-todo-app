@@ -28,11 +28,15 @@ const TodoItem = ({ todo }: TodoType) => {
     dispatch(__deleteTodos(id));
   };
 
+  console.log(todo.content);
+  const newContent =
+    todo.content.length < 20 ? todo.content : todo.content.slice(0, 20) + "...";
+
   return (
     <>
       <StItem>
         <h3>{todo.title}</h3>
-        <p>{parse(todo.content)}</p>
+        <p>{parse(newContent)}</p>
         <ButtonSection>
           <button onClick={() => deleteHandler(todo.id as string)}>삭제</button>
           <button

@@ -12,11 +12,19 @@ const TodoList = ({ isSuccess }: { isSuccess: boolean }) => {
     dispatch(__getTodos());
   }, [dispatch]);
 
-  const { todos } = useAppSelector((state) => state.todosSlice);
+  const { todos, isLoading, error } = useAppSelector(
+    (state) => state.todosSlice
+  );
+
+  console.log(error);
 
   const filteredTodos = todos?.filter(
     (todo: Todo) => todo.isDone === isSuccess
   );
+
+  if (isLoading) return "loading...";
+
+  if (error) return `에러가 발생했습니다`;
 
   return (
     <div>

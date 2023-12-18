@@ -1,4 +1,4 @@
-##프로젝트 목적
+## 프로젝트 목적
 React와 Typescript를 사용하여 To do list를 구현하기
 
 level2: RTK를 사용한 구현

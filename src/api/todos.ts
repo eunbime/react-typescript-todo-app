@@ -16,8 +16,9 @@ const deleteTodo = async (id: string): Promise<void> => {
 };
 
 const toggleIsDoneTodo = async (payload: Todo): Promise<void> => {
+  console.log(payload);
   await axios.patch(`http://localhost:4000/todos/${payload.id}`, {
-    isDone: payload.isDone,
+    isDone: !payload.isDone,
   });
 };
 

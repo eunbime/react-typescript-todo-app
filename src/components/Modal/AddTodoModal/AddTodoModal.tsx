@@ -10,19 +10,13 @@ import { v4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { addTodo } from "../../../api/todos";
-import { AxiosError } from "axios";
 
 const AddTodoModal: React.FC = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<
-    unknown,
-    AxiosError<unknown, any>,
-    void,
-    unknown
-  >(addTodo, {
-    onSuccess: (data: Todo[]) => {
-      console.log(data);
+  const mutation = useMutation({
+    mutationFn: addTodo,
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
     onError: (error: string) => {

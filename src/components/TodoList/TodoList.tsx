@@ -28,6 +28,8 @@ const TodoList = ({ isSuccess }: { isSuccess: boolean }) => {
     (todo: Todo) => todo.isDone === isSuccess
   );
 
+  console.log(todos);
+
   if (isLoading) return "Loading...";
 
   if (error) return "에러 발생: " + error.message;

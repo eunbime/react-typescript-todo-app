@@ -4,13 +4,6 @@
       "id": "1",
       "title": "title1",
       "content": "content1",
-      "isDone": true,
-      "createAt": "23/12/2"
-    },
-    {
-      "id": "2",
-      "title": "title2",
-      "content": "content2",
       "isDone": false,
       "createAt": "23/12/2"
     }

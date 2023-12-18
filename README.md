@@ -5,7 +5,7 @@ level2: RTK를 사용한 구현
 
 level3: Redux thunk와 json-server를 사용한 구현
 
-level5: useQuery와 json-server를 사용한 구현 (타입에러가 발생하여 완벽히 구현하지 못했습니다. 문제해결 후 다시 올리겠습니다.)
+level5: useQuery와 json-server를 사용한 구현 
 
 
 ## 파일 구조

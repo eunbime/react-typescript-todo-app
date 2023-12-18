@@ -9,6 +9,7 @@ level5: useQuery와 json-server를 사용한 구현 (타입에러가 발생하�
 
 
 ## 파일 구조
+```
 src
  ┣ api
  ┃ ┗ todos.ts
@@ -59,7 +60,6 @@ src
  ┣ index.tsx
  ┣ logo.svg
  ┗ react-app-env.d.ts
-
-
+```
 
 

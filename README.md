@@ -62,6 +62,7 @@ src
  ┗ react-app-env.d.ts
 ```
 
+<br><br>
 
 ## RTK & thunk를 사용한 구현
 
@@ -87,7 +88,7 @@ const dispatch = useAppDispatch();
 const { todos, isLoading, error } = useAppSelector((state) => state.todosSlice);
 ```
 
-
+<br><br>
 
 ## RTK & useQuery를 사용한 구현
 

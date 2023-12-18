@@ -137,6 +137,5 @@ const { todos, isLoading, error } = useAppSelector((state) => state.todosSlice);
   });
 ```
 
-- typescript에서 useQuery를 사용할 경우 queryKey, queryFn, mutationFn 와 같이 정확하게 명시해 주어야 에러 없이 잘 동작하였다.
 
 

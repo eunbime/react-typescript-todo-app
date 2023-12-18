@@ -1,5 +1,4 @@
 import axios from "axios";
-import todosApi from "../axios/todosApi";
 import { Todo } from "../types/todo";
 
 const getTodos = async (): Promise<Todo[]> => {

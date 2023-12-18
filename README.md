@@ -3,7 +3,7 @@
 
 level2: RTK를 사용한 구현
 
-level: Redux thunk와 json-server를 사용한 구현
+level4: Redux thunk와 json-server를 사용한 구현
 
 level5: useQuery와 json-server를 사용한 구현 
 

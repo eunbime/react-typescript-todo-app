@@ -1,7 +1,6 @@
 import React from "react";
 import TodoItem from "./TodoItem/TodoItem";
 import styled from "styled-components";
-import { useAppSelector } from "../../hooks/redux";
 import { useQuery } from "@tanstack/react-query";
 import { getTodos } from "../../api/todos";
 import { Todo } from "../../types/todo";
